@@ -24,6 +24,10 @@ https://github.com/suzuki-shunsuke/example-aqua-update-checksum/pull/1/commits/5
 
 `aqua-checksums.json` is automatically updated.
 
+https://github.com/suzuki-shunsuke/example-aqua-update-checksum/pull/3/commits/71bd15a9faaf919b0480bbcd83a2f6baa4e51fca
+
+![image](https://user-images.githubusercontent.com/13323303/193705066-a26e2b08-1e05-4260-876c-3b37c8e0d1f8.png)
+
 ## Reference
 
 - https://aquaproj.github.io/docs/reference/checksum
