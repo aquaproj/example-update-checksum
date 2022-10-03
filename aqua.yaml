@@ -8,5 +8,5 @@ registries:
   - type: standard
     ref: v3.67.0 # renovate: depName=aquaproj/aqua-registry
 packages:
-  - name: suzuki-shunsuke/tfcmt@v3.4.0
+  - name: suzuki-shunsuke/tfcmt@v3.4.2
   - name: int128/ghcp@v1.13.1
