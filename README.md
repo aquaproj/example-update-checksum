@@ -14,6 +14,16 @@ This repository shows a simple example to automate the update of `aqua-checksums
 
 [GitHub Actions Workflow](.github/workflows/test.yaml)
 
+## Example
+
+`aqua-checksums.json` is automatically created.
+
+https://github.com/suzuki-shunsuke/example-aqua-update-checksum/pull/1/commits/5e068579bd3d6189f9b65f63bdbb97450e06deee
+
+![image](https://user-images.githubusercontent.com/13323303/193704192-b313a395-a294-43c8-b154-6f4f56b2865f.png)
+
+`aqua-checksums.json` is automatically updated.
+
 ## Reference
 
 - https://aquaproj.github.io/docs/reference/checksum

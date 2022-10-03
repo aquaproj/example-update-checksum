@@ -8,10 +8,10 @@ on:
       - aqua-checksums.json
 
 env:
-  AQUA_EXPERIMENTAL_CHECKSUM_VERIFICATION: "true"
+  AQUA_EXPERIMENTAL_CHECKSUM_VERIFICATION: "true" # https://aquaproj.github.io/docs/reference/checksum
 
 permissions:
-  contents: write
+  contents: write # required to push a commit to update aqua-checksums.json
 
 jobs:
   test:
@@ -22,10 +22,14 @@ jobs:
       - uses: aquaproj/aqua-installer@v1.1.2
         with:
           aqua_version: v1.20.0-2
+
+      # https://aquaproj.github.io/docs/reference/checksum
       - run: aqua update-checksum -deep
       - run: git add aqua-checksums.json
       - run: |
           if ! git diff --cached --exit-code aqua-checksums.json; then
+            echo "::error file=aqua-checksums.json::aqua-checksums.json isn't latest. A commit is pushed automatically to update aqua-checksums.json."
+            # https://github.com/int128/ghcp
             ghcp commit -r "$GITHUB_REPOSITORY" -b "$GITHUB_HEAD_REF" \
               -m "chore(aqua): update aqua-checksums.json" \
               aqua-checksums.json
