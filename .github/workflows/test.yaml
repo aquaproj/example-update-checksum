@@ -11,8 +11,7 @@ env:
   AQUA_EXPERIMENTAL_CHECKSUM_VERIFICATION: "true"
 
 permissions:
-  contents: read
-  pull-requests: write
+  contents: write
 
 jobs:
   test:
