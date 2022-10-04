@@ -6,6 +6,7 @@ on:
     paths:
       - aqua.yaml
       - aqua-checksums.json
+      - .github/workflows/test.yaml
 
 env:
   AQUA_EXPERIMENTAL_CHECKSUM_VERIFICATION: "true" # https://aquaproj.github.io/docs/reference/checksum
