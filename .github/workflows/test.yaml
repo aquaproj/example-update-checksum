@@ -24,17 +24,7 @@ jobs:
           aqua_version: v1.20.0-2
 
       # https://aquaproj.github.io/docs/reference/checksum
-      - run: aqua update-checksum -deep
-      - run: git add aqua-checksums.json
-      - run: |
-          if ! git diff --cached --exit-code aqua-checksums.json; then
-            echo "::error file=aqua-checksums.json::aqua-checksums.json isn't latest. A commit is pushed automatically to update aqua-checksums.json."
-            # https://github.com/int128/ghcp
-            ghcp commit -r "$GITHUB_REPOSITORY" -b "$GITHUB_HEAD_REF" \
-              -m "chore(aqua): update aqua-checksums.json" \
-              aqua-checksums.json
-            exit 1
-          fi
+      - uses: aquaproj/update-checksum-action@feat/first-pr
         env:
           # To trigger GitHub Actions Workflow, you should use Personal Access Token or GitHub App token.
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{github.token}}
