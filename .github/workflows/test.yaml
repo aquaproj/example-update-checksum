@@ -8,9 +8,6 @@ on:
       - aqua-checksums.json
       - .github/workflows/test.yaml
 
-env:
-  AQUA_EXPERIMENTAL_CHECKSUM_VERIFICATION: "true" # https://aquaproj.github.io/docs/reference/checksum
-
 permissions:
   contents: write # required to push a commit to update aqua-checksums.json
 
@@ -22,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - uses: aquaproj/aqua-installer@v1.1.2
         with:
-          aqua_version: v1.20.0-2
+          aqua_version: v1.20.0
 
       # https://aquaproj.github.io/docs/reference/checksum
       - uses: aquaproj/update-checksum-action@v0.1.0
