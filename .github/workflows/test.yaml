@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - uses: aquaproj/aqua-installer@v1.1.2
         with:
-          aqua_version: v1.21.0
+          aqua_version: v1.22.0
 
       # https://aquaproj.github.io/docs/reference/checksum
       - uses: aquaproj/update-checksum-action@v0.1.0
