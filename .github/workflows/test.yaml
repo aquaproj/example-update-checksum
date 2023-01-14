@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - uses: aquaproj/aqua-installer@v2.0.2
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
         with:
           aqua_version: v1.29.0
 
       # https://aquaproj.github.io/docs/reference/checksum
-      - uses: aquaproj/update-checksum-action@v0.1.1
+      - uses: aquaproj/update-checksum-action@0a4a9f65021c0a196c44c09dd5b60a67bc74fa5c # v0.1.1
         env:
           # To trigger GitHub Actions Workflow, you should use Personal Access Token or GitHub App token.
           GITHUB_TOKEN: ${{github.token}}
