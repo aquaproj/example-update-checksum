@@ -38,7 +38,15 @@ jobs:
       github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
     permissions: {}
     steps:
-      - run: gh -R aquaproj/example-update-checksum pr review -a "$PR_NUMBER"
+      # https://github.com/cli/cli/issues/6680
+      # HTTP 401: Personal access tokens with fine grained access do not support the GraphQL API (https://api.github.com/graphql)
+      # - run: gh -R aquaproj/example-update-checksum pr review -a "$PR_NUMBER"
+      - run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/reviews" \
+            -f event='APPROVE' 
         env:
           PR_NUMBER: ${{github.event.pull_request.number}}
           GITHUB_TOKEN: ${{secrets.GH_TOKEN_APPROVE_RENOVATE_PR}}
