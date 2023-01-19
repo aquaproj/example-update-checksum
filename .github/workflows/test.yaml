@@ -93,6 +93,7 @@ jobs:
 
   actionlint:
     if: ${{needs.path-filter.outputs.actionlint == 'true'}}
+    needs: path-filter
     permissions:
       pull-requests: write
       contents: read
