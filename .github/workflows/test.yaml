@@ -11,6 +11,7 @@ jobs:
     outputs:
       update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
       renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
+      actionlint: ${{steps.changes.outputs.actionlint}}
     runs-on: ubuntu-latest
     permissions: {}
     steps:
@@ -24,6 +25,10 @@ jobs:
               - .github/workflows/test.yaml
             renovate-config-validator:
               - renovate.json5
+              - .github/workflows/test.yaml
+            actionlint:
+              - aqua/actionlint.yaml
+              - aqua/reviewdog.yaml
               - .github/workflows/test.yaml
 
   auto-approve:
@@ -87,10 +92,11 @@ jobs:
       contents: read
 
   actionlint:
-    uses: suzuki-shunsuke/actionlint-workflow/.github/workflows/actionlint.yaml@31ce3ededd2a8e3037ed9ea42033a6ad0d137d2b # v0.1.0
+    if: ${{needs.path-filter.outputs.actionlint == 'true'}}
     permissions:
       pull-requests: write
       contents: read
+    uses: suzuki-shunsuke/actionlint-workflow/.github/workflows/actionlint.yaml@31ce3ededd2a8e3037ed9ea42033a6ad0d137d2b # v0.1.0
 
   status-check:
     runs-on: ubuntu-latest
