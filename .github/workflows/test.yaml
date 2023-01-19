@@ -3,26 +3,104 @@ name: test
 on:
   pull_request:
     branches: [main]
-    paths:
-      - aqua.yaml
-      - aqua-checksums.json
-      - .github/workflows/test.yaml
 
-permissions:
-  contents: write # required to push a commit to update aqua-checksums.json
+permissions: {}
 
 jobs:
+  path-filter:
+    outputs:
+      update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
+      renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            update-aqua-checksums:
+              - aqua.yaml
+              - aqua-checksums.json
+              - .github/workflows/test.yaml
+            renovate-config-validator:
+              - renovate.json5
+              - .github/workflows/test.yaml
+
+  auto-approve:
+    # approve pull requests from Renovate automatically
+    runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
+    permissions: {}
+    steps:
+      - run: gh -R aquaproj/example-update-checksum pr review -a "$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{github.event.pull_request.number}}
+          GITHUB_TOKEN: ${{secrets.GH_TOKEN_APPROVE_RENOVATE_PR}}
+
+  update-aqua-checksums:
+    runs-on: ubuntu-latest
+    needs: path-filter
+    permissions: {}
+    if: ${{needs.path-filter.outputs.update-aqua-checksums == 'true'}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+      # https://aquaproj.github.io/docs/reference/checksum
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVATE_KEY}}
+      - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
+        with:
+          aqua_version: v1.29.0
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+      - uses: aquaproj/update-checksum-action@0a4a9f65021c0a196c44c09dd5b60a67bc74fa5c # v0.1.1
+        with:
+          prune: true
+        env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+
   test:
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
       - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
         with:
           aqua_version: v1.29.0
-
-      # https://aquaproj.github.io/docs/reference/checksum
-      - uses: aquaproj/update-checksum-action@0a4a9f65021c0a196c44c09dd5b60a67bc74fa5c # v0.1.1
         env:
-          # To trigger GitHub Actions Workflow, you should use Personal Access Token or GitHub App token.
-          GITHUB_TOKEN: ${{github.token}}
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+      - run: tfcmt -v
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+
+  renovate-config-validator:
+    uses: suzuki-shunsuke/renovate-config-validator-workflow/.github/workflows/validate.yaml@37f3b320ff7dd6fbf4fa25ce9e704ed817437a4c # v0.1.0
+    needs: path-filter
+    if: ${{needs.path-filter.outputs.renovate-config-validator == 'true'}}
+    permissions:
+      contents: read
+
+  actionlint:
+    uses: suzuki-shunsuke/actionlint-workflow/.github/workflows/actionlint.yaml@31ce3ededd2a8e3037ed9ea42033a6ad0d137d2b # v0.1.0
+    permissions:
+      pull-requests: write
+      contents: read
+
+  status-check:
+    runs-on: ubuntu-latest
+    needs:
+      - auto-approve
+      - update-aqua-checksums
+      - test
+      - renovate-config-validator
+      - actionlint
+    permissions: {}
+    if: failure()
+    steps:
+      - run: exit 1
