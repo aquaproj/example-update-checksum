@@ -8,5 +8,7 @@ registries:
   - type: standard
     ref: v3.121.0 # renovate: depName=aquaproj/aqua-registry
 packages:
+  - import: aqua/actionlint.yaml
+  - import: aqua/reviewdog.yaml
   - name: suzuki-shunsuke/tfcmt@v3.4.0
   - name: int128/ghcp@v1.13.1
