@@ -11,4 +11,4 @@ packages:
   - import: aqua/actionlint.yaml
   - import: aqua/reviewdog.yaml
   - name: suzuki-shunsuke/tfcmt@v3.4.0
-  - name: int128/ghcp@v1.13.1
+  - name: int128/ghcp@v1.13.2
