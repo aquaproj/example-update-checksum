@@ -76,33 +76,33 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v3.4.0/tfcmt_darwin_amd64.tar.gz",
-      "checksum": "e98e4216a0ec38d8a4c08a8ba0b3d3df97c022d79ffdf4b8083be6c39d2208d3",
+      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v4.0.1/tfcmt_darwin_amd64.tar.gz",
+      "checksum": "117b3d879de2bf0c8b9550790f3dd2bc2901084ecb95623577a803198af2906f",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v3.4.0/tfcmt_darwin_arm64.tar.gz",
-      "checksum": "bd223ccee50da1b853a9be5c56696d4114e8aac8c2feb3820dff41877d6e64cd",
+      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v4.0.1/tfcmt_darwin_arm64.tar.gz",
+      "checksum": "a851cfc4b6e267632dd8e9827c65d6b6968ceb9c00a06dd5800ad09c565cb1ee",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v3.4.0/tfcmt_linux_amd64.tar.gz",
-      "checksum": "f186c3d6b9cb8ded099124a3ef3869e13a23b0272c99a0ab434b89c3ed73ee6e",
+      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v4.0.1/tfcmt_linux_amd64.tar.gz",
+      "checksum": "7da72e4f40892fc20413e46170e334057492f1d6049a874268dc6c72460af114",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v3.4.0/tfcmt_linux_arm64.tar.gz",
-      "checksum": "2b1dc97b5ef2d58d2480d1020a38293c0831e51d6ba6118cb4954d01c32e584f",
+      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v4.0.1/tfcmt_linux_arm64.tar.gz",
+      "checksum": "ae209d0bc049f7e833fbadcb966551d2ff6c2d757bc38154d03c77c847094a20",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v3.4.0/tfcmt_windows_amd64.tar.gz",
-      "checksum": "9748b9895bed85390c8820c5ced0b84134240113d3f15fbfa8aadd8f4476393d",
+      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v4.0.1/tfcmt_windows_amd64.tar.gz",
+      "checksum": "ba0ab9410bcc6a8445f06937f40af97c208c327e0b6371c6c8698e21c18ef579",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v3.4.0/tfcmt_windows_arm64.tar.gz",
-      "checksum": "0cfa9f56f626f4ab4c0cacfed22616c984d568d70bd67721d052c39749047f84",
+      "id": "github_release/github.com/suzuki-shunsuke/tfcmt/v4.0.1/tfcmt_windows_arm64.tar.gz",
+      "checksum": "1072416786d45aa86ff294fadad5d9d4ea903de7d5d407c70f604cbde2a7b7f5",
       "algorithm": "sha256"
     }
   ]
