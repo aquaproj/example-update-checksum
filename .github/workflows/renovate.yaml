@@ -26,7 +26,8 @@ jobs:
   update-aqua-checksums-renovate:
     runs-on: ubuntu-latest
     environment: renovate
-    permissions: {}
+    permissions:
+      pull-requests: write
     needs: get-pr
     steps:
       - name: Checkout
@@ -52,7 +53,7 @@ jobs:
         if: |
           needs.get-pr.outputs.found == 'true' && needs.get-pr.outputs.automerge == 'true'
         env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+          GITHUB_TOKEN: ${{github.token}}
           PR_NUMBER: ${{needs.get-pr.outputs.number}}
 
   auto-approve:
