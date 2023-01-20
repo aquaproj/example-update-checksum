@@ -1,14 +1,14 @@
 name: test
 
-on:
-  push:
-    branches:
-      - "renovate/**"
+on: push
+  # push:
+  #   branches:
+  #     - "renovate/**"
 permissions: {}
 jobs:
   update-aqua-checksums-renovate:
     runs-on: ubuntu-latest
-    environment: renovate
+    # environment: renovate
     permissions: {}
     steps:
       - name: Checkout
