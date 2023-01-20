@@ -52,6 +52,7 @@ jobs:
         if: |
           needs.get-pr.outputs.found == 'true' && needs.get-pr.outputs.automerge == 'true'
         env:
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
           PR_NUMBER: ${{needs.get-pr.outputs.number}}
 
   auto-approve:
