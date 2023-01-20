@@ -1,10 +1,9 @@
 name: renovate
 
-on: push
-# on:
-#   push:
-#     branches:
-#       - "renovate/**"
+on:
+  push:
+    branches:
+      - "renovate/**"
 permissions: {}
 jobs:
   get-pr:
