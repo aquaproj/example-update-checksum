@@ -14,9 +14,9 @@ If you automate the update of packages by Renovate, you should also automate the
 
 This repository shows a simple example to automate the update of `aqua-checksums.json`.
 
-## GitHub Actions Workflow
+## Merge pull requests from Renovate automatically under secure settings
 
-[GitHub Actions Workflow](.github/workflows/test.yaml)
+Please see [Merge pull requests from Renovate automatically under secure settings](AUTOMERGE.md).
 
 ## Example
 
