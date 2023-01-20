@@ -15,7 +15,7 @@ jobs:
       number: ${{steps.pr.outputs.number}}
     permissions: {}
     steps:
-      - uses: 8BitJonny/gh-get-current-pr@2.2.0
+      - uses: 8BitJonny/gh-get-current-pr@2215326c76d51bfa3f2af0a470f32677f6c0cae9 # 2.2.0
         id: pr
       - run: "true"
         env:
