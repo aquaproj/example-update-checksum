@@ -71,11 +71,11 @@ jobs:
           aqua_version: v1.32.0
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
-      - uses: aquaproj/update-checksum-action@0a4a9f65021c0a196c44c09dd5b60a67bc74fa5c # v0.1.1
-        with:
-          prune: true
-        env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+      # - uses: aquaproj/update-checksum-action@0a4a9f65021c0a196c44c09dd5b60a67bc74fa5c # v0.1.1
+      #   with:
+      #     prune: true
+      #   env:
+      #     GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
   test:
     runs-on: ubuntu-latest
