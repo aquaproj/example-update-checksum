@@ -21,15 +21,15 @@ jobs:
           filters: |
             update-aqua-checksums:
               - aqua.yaml
+              - aqua/*.yaml
               - aqua-checksums.json
               - .github/workflows/test.yaml
             renovate-config-validator:
               - renovate.json5
-              - .github/workflows/test.yaml
             actionlint:
               - aqua/actionlint.yaml
               - aqua/reviewdog.yaml
-              - .github/workflows/test.yaml
+              - .github/workflows/*.yaml
 
   update-aqua-checksums:
     runs-on: ubuntu-latest
