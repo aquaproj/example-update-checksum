@@ -25,9 +25,7 @@ jobs:
   update-aqua-checksums-renovate:
     runs-on: ubuntu-latest
     environment: renovate
-    permissions:
-      pull-requests: write # For enable automerge
-      contents: write # For enable automerge
+    permissions: {}
     needs: get-pr
     steps:
       - name: Checkout
@@ -49,11 +47,13 @@ jobs:
           prune: true
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
-      - run: gh -R "$GITHUB_REPOSITORY" pr merge --merge --auto "$PR_NUMBER"
+      - run: gh -R "$GITHUB_REPOSITORY" pr merge --merge --auto --delete-branch "$PR_NUMBER"
         if: |
           needs.get-pr.outputs.found == 'true' && needs.get-pr.outputs.automerge == 'true'
         env:
-          GITHUB_TOKEN: ${{github.token}}
+          # github.token is unavailable, because github.token doesn't have a permission to delete a branch `renovate/*`
+          # pull-requests: write and contents: write are required
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
           PR_NUMBER: ${{needs.get-pr.outputs.number}}
 
   auto-approve:
