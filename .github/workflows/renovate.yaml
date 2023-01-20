@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: renovate
     permissions:
-      pull-requests: write
-      contents: write
+      pull-requests: write # For enable automerge
+      contents: write # For enable automerge
     needs: get-pr
     steps:
       - name: Checkout
@@ -44,7 +44,7 @@ jobs:
           aqua_version: v1.32.0
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
-      - uses: aquaproj/update-checksum-action@fix/support-push # TODO fix version
+      - uses: aquaproj/update-checksum-action@v0.1.2
         with:
           prune: true
         env:
