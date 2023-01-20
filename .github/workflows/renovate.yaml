@@ -28,6 +28,7 @@ jobs:
     environment: renovate
     permissions:
       pull-requests: write
+      contents: write
     needs: get-pr
     steps:
       - name: Checkout
