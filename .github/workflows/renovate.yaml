@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       found: ${{steps.pr.outputs.pr_found}}
-      automerge: |
+      automerge: >
         ${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}
       number: ${{steps.pr.outputs.number}}
     permissions: {}
@@ -21,7 +21,7 @@ jobs:
       - run: "true"
         env:
           FOUND: ${{steps.pr.outputs.pr_found}}
-          AUTOMERGE: |
+          AUTOMERGE: >
             ${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}
           NUMBER: ${{steps.pr.outputs.number}}
 
