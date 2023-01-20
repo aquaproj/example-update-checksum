@@ -6,4 +6,5 @@
     "github>aquaproj/aqua-renovate-config#1.5.1",
     "github>aquaproj/aqua-renovate-config:file#1.5.1(aqua/.*\\.ya?ml)",
   ],
+  platformAutomerge: false,
 }

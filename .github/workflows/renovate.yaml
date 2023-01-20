@@ -1,4 +1,4 @@
-name: test
+name: renovate
 
 on:
   push:
@@ -6,10 +6,23 @@ on:
       - "renovate/**"
 permissions: {}
 jobs:
+  get-pr:
+    runs-on: ubuntu-latest
+    outputs:
+      found: ${{steps.pr.outputs.pr_found}}
+      automerge: |
+        ${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}
+      number: ${{steps.pr.outputs.number}}
+    permissions: {}
+    steps:
+      - uses: 8BitJonny/gh-get-current-pr@2.2.0
+        id: pr
+
   update-aqua-checksums-renovate:
     runs-on: ubuntu-latest
     environment: renovate
     permissions: {}
+    needs: get-pr
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
@@ -30,3 +43,30 @@ jobs:
           prune: true
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+      - run: gh -R "$GITHUB_REPOSITORY" pr merge --auto "$PR_NUMBER"
+        if: |
+          needs.get-pr.outputs.found == 'true' && needs.get-pr.outputs.automerge == 'true'
+        env:
+          PR_NUMBER: ${{needs.get-pr.outputs.number}}
+
+  auto-approve:
+    # approve pull requests from Renovate automatically
+    runs-on: ubuntu-latest
+    environment: renovate
+    needs: get-pr
+    if: |
+      needs.get-pr.outputs.found == 'true' && needs.get-pr.outputs.automerge == 'true'
+    permissions: {}
+    steps:
+      # https://github.com/cli/cli/issues/6680
+      # HTTP 401: Personal access tokens with fine grained access do not support the GraphQL API (https://api.github.com/graphql)
+      # - run: gh -R aquaproj/example-update-checksum pr review -a "$PR_NUMBER"
+      - run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/reviews" \
+            -f event='APPROVE'
+        env:
+          PR_NUMBER: ${{needs.get-pr.outputs.number}}
+          GITHUB_TOKEN: ${{secrets.GH_TOKEN_APPROVE_RENOVATE_PR}}
