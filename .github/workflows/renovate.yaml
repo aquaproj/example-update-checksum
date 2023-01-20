@@ -18,6 +18,11 @@ jobs:
     steps:
       - uses: 8BitJonny/gh-get-current-pr@2.2.0
         id: pr
+      - run: "true"
+        env:
+          FOUND: ${{steps.pr.outputs.pr_found}}
+          AUTOMERGE: ${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}
+          NUMBER: ${{steps.pr.outputs.number}}
 
   update-aqua-checksums-renovate:
     runs-on: ubuntu-latest
