@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       found: ${{steps.pr.outputs.pr_found}}
-      automerge: >
-        ${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}
+      automerge: "${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}"
       number: ${{steps.pr.outputs.number}}
     permissions: {}
     steps:
@@ -21,8 +20,7 @@ jobs:
       - run: "true"
         env:
           FOUND: ${{steps.pr.outputs.pr_found}}
-          AUTOMERGE: >
-            ${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}
+          AUTOMERGE: "${{contains(steps.pr.outputs.pr_body, ' **Automerge**: Enabled.')}}"
           NUMBER: ${{steps.pr.outputs.number}}
 
   update-aqua-checksums-renovate:
