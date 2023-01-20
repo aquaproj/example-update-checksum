@@ -31,26 +31,6 @@ jobs:
               - aqua/reviewdog.yaml
               - .github/workflows/test.yaml
 
-  auto-approve:
-    # approve pull requests from Renovate automatically
-    runs-on: ubuntu-latest
-    if: |
-      github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
-    permissions: {}
-    steps:
-      # https://github.com/cli/cli/issues/6680
-      # HTTP 401: Personal access tokens with fine grained access do not support the GraphQL API (https://api.github.com/graphql)
-      # - run: gh -R aquaproj/example-update-checksum pr review -a "$PR_NUMBER"
-      - run: |
-          gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/reviews" \
-            -f event='APPROVE' 
-        env:
-          PR_NUMBER: ${{github.event.pull_request.number}}
-          GITHUB_TOKEN: ${{secrets.GH_TOKEN_APPROVE_RENOVATE_PR}}
-
   update-aqua-checksums:
     runs-on: ubuntu-latest
     needs: path-filter
@@ -71,11 +51,11 @@ jobs:
           aqua_version: v1.32.0
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
-      - uses: aquaproj/update-checksum-action@fix/support-push # TODO fix version
-        with:
-          prune: true
-        env:
-          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+      # - uses: aquaproj/update-checksum-action@fix/support-push # TODO fix version
+      #   with:
+      #     prune: true
+      #   env:
+      #     GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
   test:
     runs-on: ubuntu-latest
@@ -110,7 +90,6 @@ jobs:
   status-check:
     runs-on: ubuntu-latest
     needs:
-      - auto-approve
       - update-aqua-checksums
       - test
       - renovate-config-validator
