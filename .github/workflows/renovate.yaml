@@ -1,14 +1,14 @@
 name: test
 
-on: push
-  # push:
-  #   branches:
-  #     - "renovate/**"
+on:
+  push:
+    branches:
+      - "renovate/**"
 permissions: {}
 jobs:
   update-aqua-checksums-renovate:
     runs-on: ubuntu-latest
-    # environment: renovate
+    environment: renovate
     permissions: {}
     steps:
       - name: Checkout
@@ -25,7 +25,7 @@ jobs:
           aqua_version: v1.32.0
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
-      - uses: aquaproj/update-checksum-action@fix/support-push
+      - uses: aquaproj/update-checksum-action@fix/support-push # TODO fix version
         with:
           prune: true
         env:
