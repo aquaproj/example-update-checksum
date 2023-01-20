@@ -49,7 +49,7 @@ jobs:
           prune: true
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
-      - run: gh -R "$GITHUB_REPOSITORY" pr merge --auto "$PR_NUMBER"
+      - run: gh -R "$GITHUB_REPOSITORY" pr merge --merge --auto "$PR_NUMBER"
         if: |
           needs.get-pr.outputs.found == 'true' && needs.get-pr.outputs.automerge == 'true'
         env:
