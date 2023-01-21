@@ -1,3 +1,4 @@
+---
 name: test
 
 on:
@@ -8,6 +9,7 @@ permissions: {}
 
 jobs:
   path-filter:
+    # Get changed files to filter jobs
     outputs:
       update-aqua-checksums: ${{steps.changes.outputs.update-aqua-checksums}}
       renovate-config-validator: ${{steps.changes.outputs.renovate-config-validator}}
@@ -32,15 +34,16 @@ jobs:
               - .github/workflows/*.yaml
 
   update-aqua-checksums:
+    # Update aqua-checksums.json and push a commit
     runs-on: ubuntu-latest
     needs: path-filter
     permissions: {}
+    # Exclude pull requests from Renovate
     if: |
       needs.path-filter.outputs.update-aqua-checksums == 'true' && github.event.pull_request.user.login != 'renovate[bot]'
     steps:
       - name: Checkout
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
-      # https://aquaproj.github.io/docs/reference/checksum
       - name: Generate token
         id: generate_token
         uses: tibdex/github-app-token@021a2405c7f990db57f5eae5397423dcc554159c # v1
@@ -48,6 +51,7 @@ jobs:
           app_id: ${{secrets.APP_ID}}
           private_key: ${{secrets.APP_PRIVATE_KEY}}
       - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
+        # Install ghcp
         with:
           aqua_version: v1.32.0
         env:
@@ -56,6 +60,10 @@ jobs:
         with:
           prune: true
         env:
+          # To trigger GitHub Actions Workflow by pushing a commit, GitHub App token is required.
+          # github.token doesn't trigger GitHub Actions Workflow.
+          # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+          # > When you use the repository's GITHUB_TOKEN to perform tasks, events triggered by the GITHUB_TOKEN, with the exception of workflow_dispatch and repository_dispatch, will not create a new workflow run.
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
 
   test:
@@ -74,6 +82,7 @@ jobs:
           AQUA_GITHUB_TOKEN: ${{github.token}}
 
   renovate-config-validator:
+    # Validate Renovate Configuration by renovate-config-validator.
     uses: suzuki-shunsuke/renovate-config-validator-workflow/.github/workflows/validate.yaml@1a2fd7b15d99b1c434124b0bd2d8bd55b54ed869 # v0.2.0
     needs: path-filter
     if: ${{needs.path-filter.outputs.renovate-config-validator == 'true'}}
@@ -81,6 +90,7 @@ jobs:
       contents: read
 
   actionlint:
+    # Lint GitHub Actions Workflows by actionlint.
     if: ${{needs.path-filter.outputs.actionlint == 'true'}}
     needs: path-filter
     permissions:
@@ -89,6 +99,8 @@ jobs:
     uses: suzuki-shunsuke/actionlint-workflow/.github/workflows/actionlint.yaml@0c06ab0fadfa4f27569001388515dafdabc11bb3 # v0.2.0
 
   status-check:
+    # This job is used for main branch's branch protection rule's status check.
+    # If all dependent jobs succeed or are skipped this job succeeds.
     runs-on: ubuntu-latest
     needs:
       - update-aqua-checksums

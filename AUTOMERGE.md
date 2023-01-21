@@ -50,6 +50,8 @@ Create a [fine-grained personal access token](https://github.blog/2022-10-18-int
 - permissions:
   - `pull-requests: write`
 
+The owner of the access token must be a member of the organization, have a write permission, and a codeowner of the repository.
+
 ## Repository Secrets
 
 Create Repository Secrets.
