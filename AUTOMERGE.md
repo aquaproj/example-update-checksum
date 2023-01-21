@@ -19,6 +19,7 @@ Set up branch protections.
     - `Require approval of the most recent reviewable push`
   - `Require status checks to pass before merging`
     - `Status checks that are required.`: `status-check`
+  - `Do not allow bypassing the above settings`
 - `renovate/*` 
   - `Do not allow bypassing the above settings`
   - `Restrict who can push to matching branches`
@@ -26,6 +27,10 @@ Set up branch protections.
       - `renovate`
       - `aqua-update-checksum-renovatepush` (GitHub App)
   - `Allow deletions`
+
+## Repository Setting
+
+- Allow auto-merge
 
 ## GitHub Apps
 
