@@ -77,7 +77,4 @@ Create a [GitHub Environment](https://docs.github.com/en/actions/deployment/targ
 
 ## GitHub Actions Workflow
 
-Create two workflows.
-
-- [test](.github/workflows/test.yaml)
-- [renovate](.github/workflows/renovate.yaml)
+Please see [.github/workflows](.github/workflows).
