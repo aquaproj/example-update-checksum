@@ -14,6 +14,10 @@ If you automate the update of packages by Renovate, you should also automate the
 
 This repository shows a simple example to automate the update of `aqua-checksums.json`.
 
+## For public repositories (OSS)
+
+Please see [aquaproj/example-update-checksum-public](https://github.com/aquaproj/example-update-checksum-public) too.
+
 ## Merge pull requests from Renovate automatically under secure settings
 
 Please see [Merge pull requests from Renovate automatically under secure settings](AUTOMERGE.md).
