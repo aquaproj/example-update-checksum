@@ -118,7 +118,7 @@ jobs:
     # Exclude pull requests from Renovate
     if: |
       needs.path-filter.outputs.update-aqua-checksums == 'true' && github.event.pull_request.user.login != 'renovate[bot]'
-    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@e8a6d58be16dadc8727cbae211a4c5ad24052151 # v0.1.0
+    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@0ff0064b95b335a8ed93a36664e491d514c75df0 # v0.1.2
     permissions:
       contents: read
     with:
