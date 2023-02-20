@@ -26,6 +26,68 @@ jobs:
             renovate-config-validator:
               - renovate.json5
 
+  status-check:
+    # This job is used for main branch's branch protection rule's status check.
+    # If all dependent jobs succeed or are skipped this job succeeds.
+    runs-on: ubuntu-latest
+    needs:
+      - approve-and-enable-automerge-renovate
+      - update-aqua-checksums
+      - test
+      - renovate-config-validator
+    permissions: {}
+    if: failure()
+    steps:
+      - run: exit 1
+
+  approve-and-enable-automerge-renovate:
+    needs: update-aqua-checksums-renovate
+    environment: renovate
+    if: |
+      needs.path-filter.outputs.update-aqua-checksums == 'true' && github.event.pull_request.user.login == 'renovate[bot]'
+    steps:
+      - name: Enable auto-merge
+        if: |
+          contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
+        run: gh -R "$GITHUB_REPOSITORY" pr merge --merge --auto --delete-branch "$PR_NUMBER"
+        env:
+          # github.token is unavailable, because github.token doesn't have a permission to delete a branch `renovate/*`
+          # pull-requests: write and contents: write are required
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+          PR_NUMBER: ${{github.event.pull_request.number}}
+      # https://github.com/cli/cli/issues/6680
+      # HTTP 401: Personal access tokens with fine grained access do not support the GraphQL API (https://api.github.com/graphql)
+      # - run: gh -R aquaproj/example-update-checksum pr review -a "$PR_NUMBER"
+      - name: Approve a pull request
+        if: |
+          contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/reviews" \
+            -f event='APPROVE'
+        env:
+          PR_NUMBER: ${{github.event.pull_request.number}}
+          GITHUB_TOKEN: ${{secrets.GH_TOKEN_APPROVE_RENOVATE_PR}}
+
+  update-aqua-checksums-renovate:
+    # Update aqua-checksums.json and push a commit
+    needs: path-filter
+    environment: renovate
+    if: |
+      needs.path-filter.outputs.update-aqua-checksums == 'true' && github.event.pull_request.user.login == 'renovate[bot]'
+    uses: aquaproj/update-checksum-workflow/.github/workflows/update-checksum.yaml@e8a6d58be16dadc8727cbae211a4c5ad24052151 # v0.1.0
+    permissions:
+      contents: read
+    with:
+      aqua_policy_config: aqua-policy.yaml
+      aqua_version: v1.32.3
+      prune: true
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+
   update-aqua-checksums:
     # Update aqua-checksums.json and push a commit
     needs: path-filter
@@ -56,16 +118,3 @@ jobs:
     if: ${{needs.path-filter.outputs.renovate-config-validator == 'true'}}
     permissions:
       contents: read
-
-  status-check:
-    # This job is used for main branch's branch protection rule's status check.
-    # If all dependent jobs succeed or are skipped this job succeeds.
-    runs-on: ubuntu-latest
-    needs:
-      - update-aqua-checksums
-      - test
-      - renovate-config-validator
-    permissions: {}
-    if: failure()
-    steps:
-      - run: exit 1
