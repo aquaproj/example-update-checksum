@@ -78,7 +78,8 @@ Create Repository Secrets.
 Create a [GitHub Environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment).
 
 - `renovate`
-  - deployment branch rule: `renovate/*`
+  - deployment branch rule: `renovate/*`, (Optional) `main`
+    - (Optional) `main` is required to update branch by pull request comment.
   - Secrets
     - `APP_ID`: GitHub App ID of `aqua-update-checksum-renovatepush`
     - `APP_PRIVATE_KEY`: GitHub App Private Key of `aqua-update-checksum-renovatepush`
