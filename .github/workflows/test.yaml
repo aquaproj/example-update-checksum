@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: renovate
     if: |
-      needs.path-filter.outputs.update-aqua-checksums == 'true' && github.event.pull_request.user.login == 'renovate[bot]'
+      github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
     steps:
       - name: Generate token
         id: generate_token
@@ -56,8 +56,6 @@ jobs:
           app_id: ${{secrets.APP_ID}}
           private_key: ${{secrets.APP_PRIVATE_KEY}}
       - name: Enable auto-merge
-        if: |
-          contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
         run: gh -R "$GITHUB_REPOSITORY" pr merge --merge --auto --delete-branch "$PR_NUMBER"
         env:
           # github.token is unavailable, because github.token doesn't have a permission to delete a branch `renovate/*`
@@ -68,8 +66,6 @@ jobs:
       # HTTP 401: Personal access tokens with fine grained access do not support the GraphQL API (https://api.github.com/graphql)
       # - run: gh -R aquaproj/example-update-checksum pr review -a "$PR_NUMBER"
       - name: Approve a pull request
-        if: |
-          contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
         run: |
           gh api \
             --method POST \
