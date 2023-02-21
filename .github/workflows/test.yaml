@@ -41,9 +41,6 @@ jobs:
       - run: exit 1
 
   approve-and-enable-automerge-renovate:
-    needs:
-      - update-aqua-checksums-renovate
-      - path-filter
     runs-on: ubuntu-latest
     environment: renovate
     if: |
