@@ -47,6 +47,12 @@ Create two GitHub Apps and install them to a repository.
       - Update `aqua-checksums.json` and push a commit to a pull request
       - Enable automerge
     - `pull-requests: write`: Enable Automerge
+    - `workflows: write`: Enable Automerge of pull request updating GitHub Actions Workflows
+
+If `workflows: write` is missing, auto-merge is disabled.
+
+> auto-merge was automatically disabled 8 minutes ago
+> Tried to create or update workflow without `workflows` permission
 
 ## fine-grained personal access token
 
