@@ -40,13 +40,16 @@ Create two GitHub Apps and install them to a repository.
   - Use for pull requests from other than Renovate
   - Permissions
     - `contents: write`: Update `aqua-checksums.json` and push a commit to a pull request
+    - (Optional) `pull-requests: write`: Update branch by pull request comment
 - `aqua-update-checksum-renovatepush`
   - Use for pull requests from Renovate
   - Permissions
     - `contents: write`
       - Update `aqua-checksums.json` and push a commit to a pull request
       - Enable automerge
-    - `pull-requests: write`: Enable Automerge
+    - `pull-requests: write`
+      - Enable Automerge
+      - Update branch by pull request comment
     - `workflows: write`: Enable Automerge of pull request updating GitHub Actions Workflows
 
 If `workflows: write` is missing, auto-merge is disabled.

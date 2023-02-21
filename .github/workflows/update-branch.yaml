@@ -1,0 +1,27 @@
+---
+name: update pull request branch by pull request comment
+on: issue_comment
+jobs:
+  update-branch-renovate:
+    environment: renovate
+    if: |
+      github.event.issue.pull_request && github.event.comment.body == '/ub' && github.event.issue.user.login == 'renovate[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: suzuki-shunsuke/github-token-action@a058de0a42e494414cf4c112436d663a06fd16c0 # v0.1.0
+        id: token
+        with:
+          github_app_id: ${{secrets.APP_ID}}
+          github_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
+      - run: gh api -X PUT "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/update-branch"
+        env:
+          GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+
+  update-branch:
+    if: |
+      github.event.issue.pull_request && github.event.comment.body == '/ub' && github.event.issue.user.login != 'renovate[bot]'
+    uses: suzuki-shunsuke/update-branch-workflow/.github/workflows/update-branch.yaml@29187410ef7122d48f004f01b5244013a5880d2f # v0.1.0
+    secrets:
+      gh_app_id: ${{secrets.APP_ID}}
+      gh_app_private_key: ${{secrets.APP_PRIVATE_KEY}}
