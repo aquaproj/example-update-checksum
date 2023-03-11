@@ -4,11 +4,11 @@ Example updating `aqua-checksums.json` using [update-checksum-action](https://gi
 
 About aqua's Checksum Verification, please see the official document.
 
-https://aquaproj.github.io/docs/reference/checksum
+https://aquaproj.github.io/docs/security/checksum
 
 ## Motivation
 
-If you enable [aqua's Checksum Verification](https://aquaproj.github.io/docs/reference/checksum),
+If you enable [aqua's Checksum Verification](https://aquaproj.github.io/docs/security/checksum),
 you have to update `aqua-checksums.json` when packages are updated.
 If you automate the update of packages by Renovate, you should also automate the update of `aqua-checksums.json`.
 
