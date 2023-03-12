@@ -8,7 +8,7 @@ jobs:
       github.event.issue.pull_request && github.event.comment.body == '/ub' && github.event.issue.user.login == 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: suzuki-shunsuke/github-token-action@a058de0a42e494414cf4c112436d663a06fd16c0 # v0.1.0
+      - uses: suzuki-shunsuke/github-token-action@04d633c696e9d09e958c8b815c75db9606d6d927 # v0.2.0
         id: token
         with:
           github_app_id: ${{secrets.APP_ID}}
