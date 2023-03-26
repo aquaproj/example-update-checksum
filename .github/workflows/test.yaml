@@ -92,7 +92,7 @@ jobs:
       - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
         # Install ghcp
         with:
-          aqua_version: v2.2.0
+          aqua_version: v2.2.1
         env:
           AQUA_GITHUB_TOKEN: ${{github.token}}
       - uses: aquaproj/update-checksum-action@2fb7f676d407d4fb8c2c466c19d09d3ddec4f82f # v0.2.2
@@ -116,7 +116,7 @@ jobs:
       contents: read
     with:
       aqua_policy_config: aqua-policy.yaml
-      aqua_version: v2.2.0
+      aqua_version: v2.2.1
       prune: true
     secrets:
       gh_app_id: ${{secrets.APP_ID}}
