@@ -1,0 +1,38 @@
+---
+name: update-aqua-checksums-renovate
+on:
+  workflow_call:
+    secrets:
+      gh_app_id:
+        required: false
+      gh_app_private_key:
+        required: false
+jobs:
+  update-aqua-checksums-renovate:
+    # Update aqua-checksums.json and push a commit
+    runs-on: ubuntu-latest
+    environment: renovate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
+        with:
+          app_id: ${{secrets.gh_app_id}}
+          private_key: ${{secrets.gh_app_private_key}}
+      - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
+        # Install ghcp
+        with:
+          aqua_version: v2.2.1
+        env:
+          AQUA_GITHUB_TOKEN: ${{github.token}}
+      - uses: aquaproj/update-checksum-action@2fb7f676d407d4fb8c2c466c19d09d3ddec4f82f # v0.2.2
+        with:
+          prune: true
+        env:
+          # To trigger GitHub Actions Workflow by pushing a commit, GitHub App token is required.
+          # github.token doesn't trigger GitHub Actions Workflow.
+          # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+          # > When you use the repository's GITHUB_TOKEN to perform tasks, events triggered by the GITHUB_TOKEN, with the exception of workflow_dispatch and repository_dispatch, will not create a new workflow run.
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
