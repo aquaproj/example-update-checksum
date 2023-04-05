@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
         id: changes
         with:
           filters: |
@@ -115,7 +115,6 @@ jobs:
     permissions:
       contents: read
     with:
-      aqua_policy_config: aqua-policy.yaml
       aqua_version: v2.2.1
       prune: true
     secrets:
