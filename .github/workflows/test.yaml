@@ -51,7 +51,7 @@ jobs:
     needs:
       - status-check
     if: |
-      github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
+      ! failure() && ! cancelled() && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.body, ' **Automerge**: Enabled.')
     secrets:
       gh_token: ${{secrets.GH_TOKEN_APPROVE_RENOVATE_PR}}
       gh_app_id: ${{secrets.APP_ID}}
