@@ -3,6 +3,7 @@ name: update pull request branch by pull request comment
 on: issue_comment
 jobs:
   update-branch-renovate:
+    timeout-minutes: 30
     environment: renovate
     if: |
       github.event.issue.pull_request && github.event.comment.body == '/ub' && github.event.issue.user.login == 'renovate[bot]'
