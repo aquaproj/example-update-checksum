@@ -10,9 +10,9 @@ on:
 jobs:
   actionlint:
     # Lint GitHub Actions Workflows by actionlint.
-    uses: suzuki-shunsuke/actionlint-workflow/.github/workflows/actionlint.yaml@b6a5f966d4504893b2aeb60cf2b0de8946e48504 # v0.5.0
+    uses: suzuki-shunsuke/actionlint-workflow/.github/workflows/actionlint.yaml@932d2dbef166b2f6f7e11790954e8245289ffd0d # v1.2.1
     with:
-      aqua_version: v2.3.6
+      aqua_version: v2.40.0
     permissions:
       pull-requests: write
       contents: read
